@@ -1,35 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from "react";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { Tabs, Tab, AppBar } from "@mui/material";
+import Profile from "./tabs/Profile";
+import KeywordScore from "./tabs/KeywordScore";
+import AutoFill from "./tabs/AutoFill";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <AppBar position="static">
+        <Tabs value={value} onChange={handleChange} centered>
+          <Tab label="Auto Fill" component={Link} to="/auto-fill" />
+          <Tab label="Keyword Score" component={Link} to="/keyword-score" />
+          <Tab label="Profile" component={Link} to="/profile" />
+        </Tabs>
+      </AppBar>
+      <Routes>
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/keyword-score" element={<KeywordScore />} />
+        <Route path="/auto-fill" element={<AutoFill />} />
+        <Route path="/" element={<KeywordScore />} /> {/* Default route */}
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
